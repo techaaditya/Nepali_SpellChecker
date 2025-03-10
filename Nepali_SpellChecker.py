@@ -24,12 +24,10 @@ def levenshtein_distance(s1, s2):
     return previous_row[-1]
 
 def suggest(word, dictionary, max_distance=2):
-    # Filter by length first, then calculate distance
     candidates = [(w, levenshtein_distance(word, w)) 
                  for w in dictionary 
                  if abs(len(w) - len(word)) <= max_distance]
     
-    # Filter by distance and sort
     suggestions = [w for w, dist in sorted(
         [c for c in candidates if c[1] <= max_distance], 
         key=lambda x: x[1]
@@ -37,7 +35,6 @@ def suggest(word, dictionary, max_distance=2):
     
     return suggestions
 
-# Load the dictionary
 nepali_words = load_dictionary("lekhnus.dic")
 
 # Example usage
@@ -45,3 +42,8 @@ word1, word2 = "नेपाल", "नेपल"
 print(f"Is '{word1}' correct? {check(word1, nepali_words)}")
 print(f"Is '{word2}' correct? {check(word2, nepali_words)}")
 print(f"Suggestions for '{word2}': {suggest(word2, nepali_words)}")
+
+# The output would be:
+# Is 'नेपाल' correct? True
+# Is 'नेपल' correct? False
+# Suggestions for 'नेपल': ['नेपाल', 'नेपाली']
